@@ -1,3 +1,4 @@
+using HarMockServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -5,10 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
 using Microsoft.ReverseProxy.Service.Proxy;
-using Microsoft.ReverseProxy.Service.RuntimeModel.Transforms;
-using HarMockServer.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,21 +46,6 @@ namespace HarMockServer
                 UseCookies = false
             });
 
-            var proxyOptions = new RequestProxyOptions()
-            {
-                RequestTimeout = TimeSpan.FromSeconds(100),
-                // Copy all request headers except Host
-                Transforms = new Transforms(
-                    copyRequestHeaders: true,
-                    requestTransforms: Array.Empty<RequestParametersTransform>(),
-                    requestHeaderTransforms: new Dictionary<string, RequestHeaderTransform>()
-                    {
-                        { HeaderNames.Host, new RequestHeaderValueTransform(string.Empty, append: false) }
-                    },
-                    responseHeaderTransforms: new Dictionary<string, ResponseHeaderTransform>(),
-                    responseTrailerTransforms: new Dictionary<string, ResponseHeaderTransform>())
-            };
-
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
@@ -93,7 +76,7 @@ namespace HarMockServer
                     }
 
                     // No match found, forward request to original api
-                    await httpProxy.ProxyAsync(httpContext, _config.GetValue<string>("Api:Url"), httpClient, proxyOptions);
+                    await httpProxy.ProxyAsync(httpContext, _config.GetValue<string>("Api:Url"), httpClient);
 
                     // Log errors from forwarded request
                     var errorFeature = httpContext.Features.Get<IProxyErrorFeature>();
