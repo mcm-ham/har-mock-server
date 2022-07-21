@@ -31,6 +31,7 @@ public class HarFileRequest
 public class HarFileResponse
 {
     public int Status { get; set; }
+    public string? _error { get; set; }
     public HarFileHeader[] Headers { get; set; } = new HarFileHeader[0];
     public HarFileContent Content { get; set; } = new HarFileContent();
 }

@@ -35,6 +35,7 @@ app.UseEndpoints(endpoints =>
         var match = mocks.Files.Values
             .SelectMany(v => v.Log.Entries)
             .Where(e => e.Request.Url != null && new Uri(e.Request.Url).AbsolutePath.ToLower() == httpContext.Request.Path.Value?.ToLower())
+            .Where(e => e.Response._error != "net::ERR_ABORTED")
             .FirstOrDefault();
 
         // Found match in HAR file mock api use HAR response
@@ -57,7 +58,7 @@ app.UseEndpoints(endpoints =>
         }
 
         // No match found, forward request to original api
-        await httpForwarder.SendAsync(httpContext, app.Configuration.GetValue<string>("Api:Url"), httpClient);
+        await httpForwarder.SendAsync(httpContext, app.Configuration.GetValue<string>("ApiUrl"), httpClient);
 
         // Log errors from forwarded request
         var errorFeature = httpContext.Features.Get<IForwarderErrorFeature>();
