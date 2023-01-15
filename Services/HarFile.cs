@@ -1,11 +1,13 @@
-﻿public class HarFile
+﻿namespace HarMockServer;
+
+public class HarFile
 {
     public HarFileLog Log { get; set; } = new HarFileLog();
 }
 
 public class HarFileLog
 {
-    public HarFileEntry[] Entries { get; set; } = new HarFileEntry[0];
+    public HarFileEntry[] Entries { get; set; } = Array.Empty<HarFileEntry>();
 }
 
 public class HarFileEntry
@@ -24,7 +26,7 @@ public class HarFileRequest
 {
     public string? Method { get; set; }
     public string? Url { get; set; }
-    public HarFileHeader[] Headers { get; set; } = new HarFileHeader[0];
+    public HarFileHeader[] Headers { get; set; } = Array.Empty<HarFileHeader>();
     public HarFileContent Content { get; set; } = new HarFileContent();
 }
 
@@ -32,7 +34,7 @@ public class HarFileResponse
 {
     public int Status { get; set; }
     public string? _error { get; set; }
-    public HarFileHeader[] Headers { get; set; } = new HarFileHeader[0];
+    public HarFileHeader[] Headers { get; set; } = Array.Empty<HarFileHeader>();
     public HarFileContent Content { get; set; } = new HarFileContent();
 }
 

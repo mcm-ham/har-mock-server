@@ -6,7 +6,7 @@ HAR mock server provides the ability to mock API requests using HAR files. This 
 
 Steps
 
-* Install [.NET 6.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+* Install [.NET 7.0 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
 * Update `ApiUrl` with the real API endpoint in appsettings.json.
 * Update you app to use `https://localhost:8881` as the API endpoint.
 * Run `dotnet run` from command-line.
