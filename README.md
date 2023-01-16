@@ -4,10 +4,16 @@ HAR mock server provides the ability to mock API requests using HAR files. This 
 
 <https://developers.google.com/web/tools/chrome-devtools/network/reference#save-as-har>
 
-Steps
+## Installation
 
-* Install [.NET 7.0 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
-* Update `ApiUrl` with the real API endpoint in appsettings.json.
-* Update you app to use `https://localhost:8881` as the API endpoint.
-* Run `dotnet run` from command-line.
-* Can copy or remove any HAR file from HARS subfolder and mock server will process file without need for restarting.
+```sh
+dotnet tool install -g mcmham.harmockserver
+```
+
+## Usage
+
+Update your client app to use HarMockServer as the server app by updating URL to be `http://localhost:5000` (you can change this by specifying `--urls http://localhost:8000`). Then run the following command in the directory where the HAR files live (or by specifying folder via `--har-folder path/to/files`) specifying the real server app url.
+
+```sh
+harmockserver --api-url https://api.server.com
+```
